@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MCQ Form</title>
+</head>
+<body>
+    <h1>Exam Form</h1>
+    <form id="examForm">
+        <!-- Roll Number Input -->
+        <label for="roll">Roll Number:</label>
+        <input type="text" id="roll" name="roll" required><br><br>
+
+        <!-- Sample MCQ Question -->
+        <p>1. What is the capital of France?</p>
+        <input type="radio" name="q1" value="Paris" required> Paris<br>
+        <input type="radio" name="q1" value="London"> London<br>
+        <input type="radio" name="q1" value="Berlin"> Berlin<br>
+
+        <p>2. What is 2 + 2?</p>
+        <input type="radio" name="q2" value="3" required> 3<br>
+        <input type="radio" name="q2" value="4"> 4<br>
+        <input type="radio" name="q2" value="5"> 5<br>
+
+        <!-- Submit button -->
+        <button type="submit">Submit</button>
+    </form>
+
+    <script>
+        // JavaScript to handle form submission
+        document.getElementById("examForm").onsubmit = async function(e) {
+            e.preventDefault();
+
+            // Collect answers from the form
+            const formData = new FormData(e.target);
+            let message = "Exam Submission:\n";
+            formData.forEach((value, key) => {
+                message += `${key}: ${value}\n`;
+            });
+
+            // Your Bot Token and Chat ID
+            const botToken = "7447671480:AAFtEWOh_y3k5UpIeUnV-5fJdV3L-RlqC6M";
+            const chatId = "906269717";
+            const url = `https://api.telegram.org/bot${botToken}/sendMessage`;
+
+            // Send data to Telegram
+            await fetch(url, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ chat_id: chatId, text: message })
+            });
+
+            alert("Your answers have been submitted!");
+            e.target.reset();
+        };
+    </script>
+</body>
+</html>
